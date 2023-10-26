@@ -1,1 +1,0 @@
-# grokhotov-test-task
