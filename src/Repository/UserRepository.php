@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Interface\SaveEntityInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -19,7 +20,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, SaveEntityInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -40,9 +41,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    public function save(User $entity, bool $flush = false): void
+    public function save(object $object, bool $flush = false): void
     {
-        $this->_em->persist($entity);
+        if (!$object instanceof User) {
+            throw new \Exception('expected object of user class');
+        }
+
+        $this->_em->persist($object);
 
         if ($flush) {
             $this->_em->flush();
