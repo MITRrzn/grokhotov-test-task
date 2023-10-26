@@ -1,16 +1,16 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.2-fpm
 
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+RUN apt-get update && apt-get install -y \
+        libicu-dev \
+        libzip-dev \
+        libpq-dev \
+        libc-client-dev\
+        libkrb5-dev\
+    && docker-php-ext-install -j$(nproc) intl \
+    && docker-php-ext-install -j$(nproc) pgsql \
+    && docker-php-ext-install -j$(nproc) pdo_pgsql \
+    && docker-php-ext-install -j$(nproc) zip\
+    && usermod -u 1000 www-data
 
-RUN apk add --no-cache \
-    libpq-dev \
-    libzip-dev \
-    unzip \
-    \
- && docker-php-ext-install pdo pdo_pgsql
-
-ARG USER_UID=1000
-USER $USER_UID
-
+EXPOSE 9000
 WORKDIR /srv
-COPY . /srv

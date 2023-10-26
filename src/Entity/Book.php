@@ -40,16 +40,16 @@ class Book
     #[ORM\Column(length: 32)]
     private ?string $status = null;
 
-    #[ORM\OneToMany(mappedBy: 'book', targetEntity: Category::class)]
-    private Collection $categories;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt;
 
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'books')]
+    private Collection $category;
+
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->category = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,36 +141,6 @@ class Book
         return $this;
     }
 
-    /**
-     * @return Collection<int, Category>
-     */
-    public function getCategories(): Collection
-    {
-        return $this->categories;
-    }
-
-    public function addCategory(Category $category): static
-    {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-            $category->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): static
-    {
-        if ($this->categories->removeElement($category)) {
-            // set the owning side to null (unless already changed)
-            if ($category->getBook() === $this) {
-                $category->setBook(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -184,6 +154,30 @@ class Book
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategory(): Collection
+    {
+        return $this->category;
+    }
+
+    public function addCategory(Category $category): static
+    {
+        if (!$this->category->contains($category)) {
+            $this->category->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): static
+    {
+        $this->category->removeElement($category);
 
         return $this;
     }

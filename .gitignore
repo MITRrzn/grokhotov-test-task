@@ -23,6 +23,9 @@
 /var/log/*
 !var/log/.gitkeep
 
+# Uploaded files
+/public/uploads/*
+
 # Parameters
 /app/config/parameters.yml
 /app/config/parameters.ini
