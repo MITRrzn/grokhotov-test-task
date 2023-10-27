@@ -26,6 +26,9 @@
 # Uploaded files
 /public/uploads/*
 
+#mysql
+/mysql
+
 # Parameters
 /app/config/parameters.yml
 /app/config/parameters.ini
