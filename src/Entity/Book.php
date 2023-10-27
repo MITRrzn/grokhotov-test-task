@@ -224,4 +224,15 @@ class Book
 
         return $this;
     }
+
+    public function getAuthorsList(): string
+    {
+        $data = [];
+        foreach ($this->getAuthor() as $author)
+        {
+            $data[] = $author->getName();
+        }
+
+        return implode(', ', $data);
+    }
 }

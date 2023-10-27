@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block body %}
+    <div class="container-md" style="padding-left: 400px">
+        {% for book in books %}
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        {% if book.image is not null %}
+                            <img src="{{ '/uploads/books/' ~ book.image }}" class="card-img" alt="...">
+                        {% else %}
+                            <img src="https://i.pinimg.com/736x/cb/b9/d2/cbb9d2fed961f53a77a5d1b3ec33f104.jpg"
+                                 class="card-img" alt="...">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{{ path('book:by-slug', {'slug': book.slug}) }}">{{ book.title }}</a> </h5>
+                            <p class="card-text">{{ book.shortDescription }}</p>
+                            <p class="card-text"><small class="text-muted">{{ book.getAuthorsList }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

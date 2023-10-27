@@ -1,5 +1,8 @@
 FROM php:8.2-fpm
 
+#Install Composer
+COPY --from=composer:2.5.8 /usr/bin/composer /usr/local/bin/composer
+
 RUN apt-get update && apt-get install -y \
         libicu-dev \
         libzip-dev \

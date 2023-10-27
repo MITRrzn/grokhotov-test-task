@@ -121,4 +121,18 @@ class BookService
         return $filename;
     }
 
+    public function getRandomBooks(int $limit): array
+    {
+        return $this->bookRepo->getRandomBooks($limit);
+    }
+
+    public function getBooksByCategory(string $category): array
+    {
+        return $this->bookRepo->getByCategory($category);
+    }
+
+    public function getBookBySlug(string $slug): Book|null
+    {
+        return $this->bookRepo->findOneBy(['slug' => $slug]);
+    }
 }

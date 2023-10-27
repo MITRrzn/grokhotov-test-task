@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Book;
+use App\Entity\Category;
 use App\Interface\SaveEntityInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -36,5 +37,25 @@ class BookRepository extends ServiceEntityRepository implements SaveEntityInterf
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    public function getByCategory(string $category): array
+    {
+        return $this->createQueryBuilder('b')
+            ->innerJoin('b.category', 'c', 'WITH', 'c.slug = :category')
+            ->setParameters([
+                'category' => $category
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getRandomBooks(int $limit)
+    {
+        return $this->createQueryBuilder('b')
+            ->orderBy('RAND()')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
 }

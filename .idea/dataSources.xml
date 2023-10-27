@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="grokhotov-db@localhost" uuid="64886231-6dd8-4040-854b-3165d9bcd752">
-      <driver-ref>postgresql</driver-ref>
+    <data-source source="LOCAL" name="grokhotov_db@localhost" uuid="38c87e31-ccd8-4fb8-9ea8-faec80991a7d">
+      <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:55432/grokhotov-db</jdbc-url>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3906/grokhotov_db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

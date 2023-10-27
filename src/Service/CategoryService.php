@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Category;
+use App\Helper\SlugHelper;
 use App\Interface\ServiceInterface;
 use App\Repository\CategoryRepository;
 use Exception;
@@ -24,9 +25,17 @@ class CategoryService implements ServiceInterface
         }
 
         $newCategory = new Category();
-        $newCategory->setName($name);
+        $newCategory
+            ->setName($name)
+            ->setSlug(SlugHelper::slugify($name))
+        ;
         $this->categoryRepo->save($newCategory, true);
 
         return $newCategory;
+    }
+
+    public function getAllCategories(): array
+    {
+        return $this->categoryRepo->findAll();
     }
 }

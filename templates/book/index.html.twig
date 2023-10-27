@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book info{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="card mb-6">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    {% if book.image is not null %}
+                        <img src="{{ '/uploads/books/' ~ book.image }}" class="card-img" alt="...">
+                    {% else %}
+                        <img src="https://i.pinimg.com/736x/cb/b9/d2/cbb9d2fed961f53a77a5d1b3ec33f104.jpg"
+                             class="card-img" alt="...">
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-text"><small class="text-muted">Authors: {{ book.authorsList }}</small></p>
+                        <p class="card-text">{{ book.longDescription }}</p>
+                        <p class="card-text"><small class="text-muted">Isbn: {{ book.isbn }}</small></p>
+                        <p class="card-text"><small class="text-muted">Page count: {{ book.pageCount }}</small></p>
+                        <p class="card-text"><small class="text-muted">Published
+                                date: {{ book.publishedDate|date('Y-m-d') }}</small></p>
+                        <p class="card-text"><small class="text-muted">
+                                <ul>
+                                    {% for category in book.category  %}
+                                        <li><a href="{{ path('category:by-slug', {'slug': category.slug}) }}">{{ category.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -21,6 +21,9 @@ class Category
     #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'category')]
     private Collection $books;
 
+    #[ORM\Column(length: 128)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->books = new ArrayCollection();
@@ -73,5 +76,17 @@ class Category
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }
