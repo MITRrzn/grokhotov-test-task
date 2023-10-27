@@ -29,7 +29,6 @@ class BookCrudController extends AbstractCrudController
             TextField::new('isbn'),
             IntegerField::new('pageCount'),
             DateField::new('publishedDate'),
-            UrlField::new('thumbnailUrl'),
             TextareaField::new('longDescription'),
             ChoiceField::new('status')->setChoices(BookStatus::cases()),
             AssociationField::new('category')->autocomplete(),
@@ -37,7 +36,6 @@ class BookCrudController extends AbstractCrudController
                 ->setBasePath('uploads/books')
                 ->setUploadDir('/public/uploads/books')
                 ->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
-//        IMAGE!!!!!
         ];
     }
 }

@@ -5,12 +5,18 @@ namespace App\Service;
 use App\Entity\Author;
 use App\Entity\Book;
 use App\Entity\Category;
+use App\Helper\SlugHelper;
 use App\Repository\BookRepository;
 use DateTime;
 use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 
 class BookService
 {
+    private const BOOK_IMAGE_STORE_PATH = __DIR__ . '/../../public/uploads/books/';
+
     public function __construct(
         private readonly BookRepository  $bookRepo,
         private readonly AuthorService   $authorService,
@@ -42,6 +48,7 @@ class BookService
         $book = new Book();
         $book
             ->setTitle($bookData['title'])
+            ->setSlug(SlugHelper::slugify($bookData['title']))
             ->setIsbn($bookData['isbn'])
             ->setPageCount($bookData['pageCount'])
             ->setStatus($bookData['status']);
@@ -56,7 +63,12 @@ class BookService
         }
 
         if (array_key_exists('thumbnailUrl', $bookData)) {
-            $book->setThumbnailUrl($bookData['thumbnailUrl']);
+            try {
+                $imgName = $this->parseImage($bookData['title'], $bookData['thumbnailUrl']);
+                $book->setImage($imgName);
+            } catch (RequestException)
+            {
+            }
         }
 
         if (array_key_exists('longDescription', $bookData)) {
@@ -83,6 +95,30 @@ class BookService
             return true;
         }
         return false;
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function parseImage(string $bookTitle, string $url): string
+    {
+        $client = new Client();
+
+        $path = parse_url($url, PHP_URL_PATH);
+        $explode = explode('/', $path);
+        $filename = SlugHelper::slugify($bookTitle) . '-' . end($explode);
+
+        $resource = fopen( self::BOOK_IMAGE_STORE_PATH . $filename, 'w');
+
+        $client->request('GET', $url, [
+            'headers' => [
+                'Content-Type' => 'image/jpeg'
+            ],
+            'sink' => $resource,
+        ]);
+        unset($client);
+
+        return $filename;
     }
 
 }

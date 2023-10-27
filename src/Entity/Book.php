@@ -19,6 +19,9 @@ class Book
     #[ORM\Column(length: 128)]
     private ?string $title = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     #[ORM\Column(length: 16)]
     private ?string $isbn = null;
 
@@ -30,9 +33,6 @@ class Book
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $publishedDate = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $thumbnailUrl = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $shortDescription = null;
@@ -108,18 +108,6 @@ class Book
     public function setPublishedDate(\DateTimeInterface $publishedDate): static
     {
         $this->publishedDate = $publishedDate;
-
-        return $this;
-    }
-
-    public function getThumbnailUrl(): ?string
-    {
-        return $this->thumbnailUrl;
-    }
-
-    public function setThumbnailUrl(string $thumbnailUrl): static
-    {
-        $this->thumbnailUrl = $thumbnailUrl;
 
         return $this;
     }
@@ -221,6 +209,18 @@ class Book
     public function setShortDescription(string $shortDescription): static
     {
         $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
