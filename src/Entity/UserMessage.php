@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\UserMessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserMessageRepository::class)]
 class UserMessage
@@ -14,6 +17,8 @@ class UserMessage
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Email(message: 'The email {{ value }} is not a valid email.')]
     #[ORM\Column(length: 64)]
     private ?string $email = null;
 
@@ -23,6 +28,8 @@ class UserMessage
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Regex('/^9[[:digit:]]{9}$/', message: 'Please provide a valid phone number. 9xxxxxxxxx')]
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $phone = null;
 
