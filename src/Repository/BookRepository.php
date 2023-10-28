@@ -6,6 +6,8 @@ use App\Entity\Book;
 use App\Entity\Category;
 use App\Interface\SaveEntityInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -50,12 +52,24 @@ class BookRepository extends ServiceEntityRepository implements SaveEntityInterf
             ->getResult();
     }
 
-    public function getRandomBooks(int $limit)
+    public function bookPagination(int $offset, int $limit)
     {
         return $this->createQueryBuilder('b')
-            ->orderBy('RAND()')
+            ->setFirstResult($offset)
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function getBooksCounter(): int
+    {
+        return $this->createQueryBuilder('b')
+            ->select('count(b.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

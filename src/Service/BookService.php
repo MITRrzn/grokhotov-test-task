@@ -8,6 +8,8 @@ use App\Entity\Category;
 use App\Helper\SlugHelper;
 use App\Repository\BookRepository;
 use DateTime;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -121,9 +123,9 @@ class BookService
         return $filename;
     }
 
-    public function getRandomBooks(int $limit): array
+    public function getAllBooks(int $offset, int $limit): array
     {
-        return $this->bookRepo->getRandomBooks($limit);
+        return $this->bookRepo->bookPagination($offset, $limit);
     }
 
     public function getBooksByCategory(string $category): array
@@ -134,5 +136,14 @@ class BookService
     public function getBookBySlug(string $slug): Book|null
     {
         return $this->bookRepo->findOneBy(['slug' => $slug]);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function getBooksCounter(): int
+    {
+        return $this->bookRepo->getBooksCounter();
     }
 }
