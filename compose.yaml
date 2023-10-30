@@ -1,6 +1,5 @@
 services:
   nginx:
-    container_name: grokhotov-nginx
     image: nginx:stable
     volumes:
       - '.:/srv'
@@ -8,21 +7,19 @@ services:
     depends_on:
       - php
   php:
-    container_name: grokhotov-php
     build: ./docker/php
     depends_on:
       - db
     volumes:
       - '.:/srv'
   db:
-    container_name: grokhotov-db
     image: mysql:8
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --init-file /data/application/init.sql
     volumes:
       - ./mysql:/var/lib/mysql
       - ./docker/mysql/init.sql:/data/application/init.sql
     environment:
-      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
 volumes:
   db_data:

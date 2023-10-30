@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Helper\SlugHelper;
 use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -72,6 +73,7 @@ class Book
     public function setTitle(string $title): static
     {
         $this->title = $title;
+        $this->slug = SlugHelper::slugify($title);
 
         return $this;
     }
@@ -216,13 +218,6 @@ class Book
     public function getSlug(): ?string
     {
         return $this->slug;
-    }
-
-    public function setSlug(string $slug): static
-    {
-        $this->slug = $slug;
-
-        return $this;
     }
 
     public function getAuthorsList(): string

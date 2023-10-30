@@ -50,7 +50,6 @@ class BookService
         $book = new Book();
         $book
             ->setTitle($bookData['title'])
-            ->setSlug(SlugHelper::slugify($bookData['title']))
             ->setIsbn($bookData['isbn'])
             ->setPageCount($bookData['pageCount'])
             ->setStatus($bookData['status']);

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Helper\SlugHelper;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -42,6 +43,7 @@ class Category
     public function setName(string $name): static
     {
         $this->name = $name;
+        $this->slug = SlugHelper::slugify($name);
 
         return $this;
     }
@@ -81,12 +83,5 @@ class Category
     public function getSlug(): ?string
     {
         return $this->slug;
-    }
-
-    public function setSlug(string $slug): static
-    {
-        $this->slug = $slug;
-
-        return $this;
     }
 }

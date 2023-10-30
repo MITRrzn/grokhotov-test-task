@@ -27,7 +27,6 @@ class CategoryService implements ServiceInterface
         $newCategory = new Category();
         $newCategory
             ->setName($name)
-            ->setSlug(SlugHelper::slugify($name))
         ;
         $this->categoryRepo->save($newCategory, true);
 
