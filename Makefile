@@ -5,8 +5,9 @@ NGINX_CONTAINER = grokhotov-test-task-nginx-1
 bash:
 	docker exec -it -w /../srv $(PHP_CONTAINER) bash
 
-composer-install:
+prepare:
 	docker exec -it -w /../srv $(PHP_CONTAINER) bash -c "composer install"
+	docker exec -it -w /../srv $(PHP_CONTAINER) bash -c "mkdir -p public/uploads/books"
 
 migrate:
 	docker exec -it -w /../srv $(PHP_CONTAINER) bash -c "bin/console doctrine:migrations:migrate"
