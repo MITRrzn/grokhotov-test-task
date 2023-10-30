@@ -15,7 +15,7 @@ class BookController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'by-slug')]
-    public function index(string $slug): Response
+    public function bookBySlug(string $slug): Response
     {
         $book = $this->bookService->getBookBySlug($slug);
 

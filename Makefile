@@ -1,6 +1,6 @@
-PHP_CONTAINER = grokhotov-test-task-php-1
-DB_CONTAINER = grokhotov-test-task-db-1
-NGINX_CONTAINER = grokhotov-test-task-nginx-1
+PHP_CONTAINER = grokhotov-php
+DB_CONTAINER = grokhotov-db
+NGINX_CONTAINER = grokhotov-nginx
 
 bash:
 	docker exec -it -w /../srv $(PHP_CONTAINER) bash
